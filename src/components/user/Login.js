@@ -11,8 +11,10 @@ import '../../styles/Login.sass';
 const NOT_VALID_EMAIL = -1
 const BAD_REQUEST = 400
 const UNAUTHORIZED = 401
-const ALL_EMPTY = 1
 const OTHER_ERROR = 2;
+const ALL_EMPTY = 1
+const PASS_EMPTY = 3
+const EMAIL_EMPTY = 4
 
 
 class Login extends React.Component {
@@ -27,7 +29,9 @@ class Login extends React.Component {
       validations: { 
                     emailValid: '', 
                     pswValid: ''
-                  }
+                  },
+      field_email: '',
+      field_pass: ''
     }
    
     this.handleLogin = this.handleLogin.bind(this);
@@ -76,6 +80,12 @@ class Login extends React.Component {
         case UNAUTHORIZED:
           pswValid.innerText = formatedDetail
           break
+        case EMAIL_EMPTY:
+          emailValid.innerText = formatedDetail
+          break
+        case PASS_EMPTY:
+          pswValid.innerText = formatedDetail
+          break
         case ALL_EMPTY:
           allEmpty.innerText = formatedDetail
           break
@@ -103,11 +113,19 @@ class Login extends React.Component {
     
     const email = this.state.email;
     
-    if(this.state.psw === '' || this.state.username === '') {
-      this.handleError(ALL_EMPTY,"There are empty fields")
-      document.getElementById('inemail').value="";
-      document.getElementById('inpsw').value="";
-    } else {
+    if (this.state.email === '' && this.state.psw === '') {
+      this.setState({field_pass: ' is-danger', field_email: ' is-danger'})
+      this.handleError(ALL_EMPTY,"Fields are empty.")
+    }
+    else if (this.state.psw === '') {
+      this.setState({field_pass: ' is-danger'})
+      this.handleError(PASS_EMPTY,"This field is required.")
+    } 
+    else if (this.state.email === '') {
+      this.setState({field_email: ' is-danger'})
+      this.handleError(EMAIL_EMPTY,"This field is required.")
+    }
+    else {
 
       if (verifyEmail(email)) {
         
@@ -161,7 +179,7 @@ class Login extends React.Component {
 
     /* Since the login api does not have 'CORS' enabled, I set these values forcibly. */
 
-    if (cookie !== undefined || this.state.redirect || true) {
+    if (cookie !== undefined || this.state.redirect || false) {
       this.context.setUsername("Alkemy_user");
       this.context.setEmail("challenge@alkemy.org");
       this.context.setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJjaGFsbGVuZ2VAYWxrZW15Lm9yZyIsImlhdCI6MTUxNjIzOTAyMn0.ilhFPrG0y7olRHifbjvcMOlH7q2YwlegT0f4aSbryBE");
@@ -172,6 +190,7 @@ class Login extends React.Component {
           {({token, setToken}) => (
             <div class='login-page has-text-centered'>
               <section>
+                <h1 class='title' style={{"margin-bottom":"50px"}}>Login</h1>
                 <div class='columns'>
                   <div class='column'>
                     <div class='container px-3'> 
@@ -179,39 +198,45 @@ class Login extends React.Component {
                       <div class='container'>
                         <form onSubmit={this.handleLogin}>
                           <div class='field'>
-                            <label class='login-label has-text-black-bis is-large'> E-mail: </label>
-                            <div class='control'>
-                              <input  class='login-input is-rounded is-large' id='inemail' type='email' value={this.state.email} 
-                              onChange={e => this.setState({email: e.target.value})}/>   
-                              <div id='emailValid' class='validation'></div>                
-                            </div>
+                            <p class="control has-icons-left has-icons-right">
+                              <input  class={"input" + this.state.field_email}  id='inemail' type='email' placeholder='email' value={this.state.email} 
+                              onChange={e => {
+                                this.setState({email: e.target.value, field_email: ''})
+                                document.getElementById('emailValid').innerText = '';
+                                }}/> 
+                                <span class="icon is-small is-left">
+                                  <i class="fas fa-envelope"></i>
+                                </span> 
+                                <span class="icon is-small is-right">
+                                  <i class="fas fa-check"></i>
+                                </span>
+                            </p>
+
+                            <div id='emailValid' class='validation' style={{margin:0,fontSize:"13px",color:"#551009"}}></div>                
+                          
                           </div>
                           <div class='field'>
-                            <label class='login-label has-text-black-bis is-large'> Password: </label>
-                            <div class='control'>
-                              <input class='login-input is-rounded is-large' id='inpsw' type='password' value={this.state.psw}
-                               onChange={e => this.setState({psw: e.target.value})}/>
-                              <div id='pswValid' class='validation'></div>
-                            </div>
+                            <p class="control has-icons-left">
+                              <input class={"input" + this.state.field_pass} id='inpsw' type='password' placeholder="password" value={this.state.psw}
+                              onChange={e => {
+                                this.setState({psw: e.target.value, field_pass: ''})
+                                document.getElementById('pswValid').innerText = ''
+                                }}/>
+                                <span class="icon is-small is-left">
+                                  <i class="fas fa-lock"></i>
+                                </span>
+                              <div id='pswValid' class='validation' style={{margin:0,fontSize:"13px",color:"#551009"}}></div>
+                            </p>
                           </div>
                           <div class='field'>
-                            <div id='allEmptyValid' class='validation'></div>
+                            <div id='allEmptyValid' class='validation' style={{margin:0,fontSize:"13px",color:"#551009"}}></div>
                           </div>
                           <div class='field'>
-                            <input class='login-button is-medium is-fullwidht is-rounded mb-2 log-btn-margin' type='submit' value='Login'/> 
+                            <input class='button is-success' type='submit' value='Login' style={{marginBottom:"1rem",marginTop:".5rem"}}/> 
                           </div>
                       </form>
                     </div>
 
-                  </div>
-                  <div class='column'>
-                    <div class='container py-6'>
-                      <p class='login-label is-large is-size-5'>
-                        Don't have an account yet? 
-                        <Link id='toReg' class='login-button is-rounded mx-2' 
-                          to={`/registerPage`}> Sign up here </Link> 
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>

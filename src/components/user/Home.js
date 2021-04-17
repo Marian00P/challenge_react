@@ -7,11 +7,17 @@ import Cookies from 'js-cookie';
 class Home extends React.Component {
 
   render() {
-    return(
-      <div>
-        Basis
-      </div>
-    )
+    const cookie = Cookies.getJSON("user");
+    console.log(cookie)
+    if (cookie == undefined) {
+      return (<Redirect to='/'/>);
+    } else {
+      return(
+        <div>
+          Basis
+        </div>
+      )
+    }
   }
 
 } 
