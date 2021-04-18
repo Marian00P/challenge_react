@@ -31,7 +31,8 @@ class Login extends React.Component {
                     pswValid: ''
                   },
       field_email: '',
-      field_pass: ''
+      field_pass: '',
+      flag: false
     }
    
     this.handleLogin = this.handleLogin.bind(this);
@@ -126,7 +127,8 @@ class Login extends React.Component {
       this.handleError(EMAIL_EMPTY,"This field is required.")
     }
     else {
-
+      this.setState({flag: true})
+      console.log("Setting flag", this.state.flag)
       if (verifyEmail(email)) {
         
         const psw = this.state.psw
@@ -143,14 +145,8 @@ class Login extends React.Component {
           body: raw,
           redirect: 'follow'
         };
-
-        const body = {
-          email: `${email}`,
-          password: `${psw}`
-        }
-
      
-        axios.post('http://challenge-react.alkemy.org/', body).then(async response => {
+        fetch('http://challenge-react.alkemy.org/', requestOptions).then(async response => {
           
           // token is an object {access_token, type}
           const data = await response.json();
@@ -179,10 +175,12 @@ class Login extends React.Component {
 
     /* Since the login api does not have 'CORS' enabled, I set these values forcibly. */
 
-    if (cookie !== undefined || this.state.redirect || false) {
-      this.context.setUsername("Alkemy_user");
+    if (cookie !== undefined || this.state.redirect || this.state.flag) {
+      console.log("The user is automatically logged in!")
+      this.context.setUsername("user");
       this.context.setEmail("challenge@alkemy.org");
       this.context.setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJjaGFsbGVuZ2VAYWxrZW15Lm9yZyIsImlhdCI6MTUxNjIzOTAyMn0.ilhFPrG0y7olRHifbjvcMOlH7q2YwlegT0f4aSbryBE");
+      SetCookies("user",this.context.username,this.context.token,this.context.email,this.context.icon)
       return (<Redirect to='/home'/>);
     } else {
       return (
