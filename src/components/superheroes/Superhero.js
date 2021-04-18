@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import '../../styles/Superhero.sass'
 
 export function Superhero(props) {
@@ -9,7 +9,7 @@ export function Superhero(props) {
     <div class="superhero">
       <h3>{props.hero_name}</h3>
       <div class='hero-image'>
-        <img src={props.img["url"]}></img>
+        <img src={props.img["url"]} alt={"Superhero " + props.hero_name} style={{width:"168px",height:"224px"}}/>
       </div>
       <ul class='hero-powerstats'>
       {
@@ -20,19 +20,9 @@ export function Superhero(props) {
       </ul>
       <div class="buttons">
         <button class="button is-danger is-small">Delete</button>
-        <button class="button is-danger is-small">Details</button>
+        <button class="button is-success is-small">Details</button>
       </div>
     </div>
   )
   
 }
-
-/*{
-          props.powerstats.map(
-            (powerstat) => {
-              <li>
-                <p>{powerstat}: {powerstat.value}</p>
-              </li>
-            }
-          )
-        } */

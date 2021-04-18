@@ -5,8 +5,10 @@ export const userContext = createContext({
     token: '',
     username: '',
     email: '',
+    team_members: [],
 
     setToken: () => {},
     setUsername: () => {},
     setEmail: () => {},
+    setTeamMembers: () => {}
 });

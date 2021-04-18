@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { userContext } from '../../user_context';
 import { SetCookies } from '../utils/cookies';
 import verifyEmail from '../utils/verification';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
-import axios from 'axios';
 import '../../styles/Login.sass';
 
 const NOT_VALID_EMAIL = -1

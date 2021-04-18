@@ -20,15 +20,20 @@ class App extends React.Component {
     this.setState({email});
   }
 
+  setTeamMembers =  members => {
+    this.setState({members});
+  }
+
   state = {
     token: '',
     username: '',
     email: '',
     icon: {},
+    team_members: [],
     setToken: this.setToken,
     setUsername: this.setUsername,
     setEmail: this.setEmail,
-    setIcon: this.setIcon
+    setTeamMembers: this.setTeamMembers
   };
 
   render() {
