@@ -4,6 +4,7 @@ import logo from '../../logo.png'
 import '../../styles/Home.sass'
 import Cookies from 'js-cookie';
 import { SuperheroesList } from "../superheroes/SuperheroesList";
+import { SuperheroFinder } from "../superheroes/SuperheroFinder";
 
 class Home extends React.Component {
 
@@ -16,7 +17,19 @@ class Home extends React.Component {
     }
 
     this.logout = this.logout.bind(this);
+    this.handleModal = this.handleModal.bind(this);
     
+  }
+
+  handleModal() {
+    var modal = document.getElementById("search_hero")
+    console.log(modal)
+    if (modal.getAttribute("class")==='modal') {
+      modal.setAttribute("class", "modal is-active")
+    } else {
+      console.log("Open modal")
+      modal.setAttribute("class", "modal")
+    }
   }
 
   logout() {
@@ -37,6 +50,9 @@ class Home extends React.Component {
               <a class="navbar-item">
                 <img src={logo} alt="Superhero: the new app to create a superheroes" width="30" height="35" />
               </a>
+              <a class="navbar-item">
+                <button class='button is-success' onClick={this.handleModal}>Search superhero</button>
+              </a>
               <div class="navbar-burger" data-target="navbarExampleTransparentExample">
                 <span></span>
                 <span></span>
@@ -44,7 +60,7 @@ class Home extends React.Component {
               </div>
             </div>
 
-            <div id="navbarExampleTransparentExample" class="navbar-menu" $>
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
               <div class="navbar-start">
                 <div class="navbar-item has-dropdown is-hoverable">
                   <div class="navbar-dropdown is-boxed">
@@ -63,6 +79,7 @@ class Home extends React.Component {
           </nav>
           <div class='container superheroes'>
             <SuperheroesList/>
+            <SuperheroFinder/>
           </div>
         </div>
       )

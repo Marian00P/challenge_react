@@ -29,7 +29,7 @@ class App extends React.Component {
     username: '',
     email: '',
     icon: {},
-    team_members: [],
+    team_members: [25,16,44,33,46,98],
     setToken: this.setToken,
     setUsername: this.setUsername,
     setEmail: this.setEmail,
