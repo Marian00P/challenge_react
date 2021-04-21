@@ -1,0 +1,64 @@
+@import '../Cummon.css';
+
+.heroes-list {
+    list-style-type: none;
+    margin: 2rem;
+    display: flow-root;
+    align-items: center;
+}
+.hero-container {
+    margin: 1rem;
+}
+
+.h-l {
+    box-sizing: border-box;
+}
+
+.superhero {
+    float: left;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 200px;
+    text-align: center;
+    align-content: center;
+    background-color: #ce9243;
+    margin: 1em;
+}
+
+
+
+@media screen and (max-width: 768px){
+    .superhero {
+        width: auto;
+    }
+    .hero-image {
+        float: left;
+        margin: 1em;
+        padding: .5em;
+    }
+}
+
+.is-desk {
+    background-color: #449da1
+}
+
+.hero-powerstats {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    text-align: left;
+}
+
+.hero-image {
+    margin-top: .5rem;
+}
+
+.buttons {
+    justify-content: center;
+}
+
+.container {
+    display: inline-block;
+}
+
+
+

@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from 'react-router-dom';
 import logo from '../../logo.png'
-import '../../styles/Home.sass'
+import '../../styles/Home.css'
 import Cookies from 'js-cookie';
 import { SuperheroesList } from "../superheroes/SuperheroesList";
 import { SuperheroFinder } from "../superheroes/SuperheroFinder";
@@ -77,7 +77,7 @@ class Home extends React.Component {
               </div>
             </div>
           </nav>
-          <div class='container superheroes'>
+          <div class='superheroes'>
             <SuperheroesList/>
             <SuperheroFinder/>
           </div>

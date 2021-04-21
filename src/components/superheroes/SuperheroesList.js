@@ -1,10 +1,8 @@
-import { render } from '@testing-library/react'
 import React, { Component, useContext, useEffect } from 'react'
-import '../../styles/Superhero.sass'
+import '../../styles/Superhero.css'
 import { userContext } from '../../user_context'
 import { Superhero } from './Superhero'
 import Hero from '../utils/hero_data_type'
-import { SuperheroFinder } from './SuperheroFinder'
 
 class SuperheroesList extends Component {
 
@@ -53,8 +51,8 @@ class SuperheroesList extends Component {
 
     return(
       <>
-      <div class='container h-l'>
-        <ul class='heroes-list block'>
+      <div class='h-l'>
+        <ul class='heroes-list'>
           { 
             this.state.heroes_list.filter(value => value.id !== "-1").map(
               hero => (
@@ -75,16 +73,3 @@ class SuperheroesList extends Component {
   }
   
 } export {SuperheroesList}
-
-/*
-this.state.heroes_list.map(
-            hero => (
-              <li class='hero-container'>
-                <Superhero
-                  hero_name={hero.name}
-                  img={hero.image}
-                  powerstats={hero.powerstats}
-                />
-              </li>
-            )
-          ) */

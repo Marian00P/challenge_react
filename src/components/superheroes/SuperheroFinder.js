@@ -14,21 +14,27 @@ class SuperheroFinder extends React.Component {
         find_hero: ''
       }
       this.findHero = this.findHero.bind(this)
+      this.findHandle = this.findHandle.bind(this)
       this.handleModal = this.handleModal.bind(this)
     }
 
   handleModal() {
     var modal = document.getElementById("search_hero")
-    console.log(modal)
     if (modal.getAttribute("class")==='modal') {
       modal.setAttribute("class", "modal is-active")
     } else {
-      console.log("Open modal")
       modal.setAttribute("class", "modal")
     }
   }
 
+  findHandle(){
+      this.setState({heroes: [Hero_encountered]})
+      this.findHero(this.state.hero_name)
+  }
+
   findHero(name) {
+    this.setState({handleErrors: ''})
+
     fetch(`https://www.superheroapi.com/api.php/3973112209448483/search/${name}`,{
           headers: {
           "Content-Type": "application/json"
@@ -38,16 +44,12 @@ class SuperheroFinder extends React.Component {
               
           // token is an object {access_token, type}
           const data = await response.json();
-          console.log(data)
           if (data.response === 'success'){
-            var heroes_encountered = []
             data.results.map(
               hero => {
-                console.log("Insertando ",hero)
                 this.setState({heroes_data: this.state.heroes.push(hero)})
               }
             )
-            console.log(this.state.heroes)
           } else {
             const error = `Superhero ${this.state.find_hero} does not exist :(`
             this.setState({handleErrors: error})
@@ -70,43 +72,38 @@ class SuperheroFinder extends React.Component {
                 <button class="delete" aria-label="close" onClick={this.handleModal}></button>
               </header>
               <section class="modal-card-body">
-              <div class="field">
-                <label class="label">Name of the superhero</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="e.g. Batman" onChange={e => {
-                    this.setState({handleErrors: ''})
-                    this.setState({hero_name: e.target.value})
-                    console.log(this.state.hero_name)
-                    }}/>
+                <div class="field">
+                  <label class="label">Name of the superhero</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="e.g. Batman" onChange={e => {
+                      this.setState({handleErrors: ''})
+                      this.setState({hero_name: e.target.value})
+                      }}/>
+                  </div>
                 </div>
-              </div>
-                {
-                  (this.state.handleErrors !== '') ?
-                      <p class='help is-danger'>{this.state.handleErrors}</p>
-                  :
-                  <></>
-                }
-                <ul>
                   {
-                    this.state.heroes.map(
-                      hero => {
-                        <li class='hero-container'>
-                          <Superhero
-                            hero_name={hero.name}
-                            img={hero.image}
-                            powerstats={hero.powerstats}
-                          />
-                        </li>
-                      }
+                    (this.state.handleErrors !== '') ?
+                        <p class='help is-danger'>{this.state.handleErrors}</p>
+                    :
+                    <></>
+                  }
+                  <div class="field">
+                  {
+                    this.state.heroes.filter(value => value.id !== "-1").map(
+                      hero => (
+                          // console.log(hero.image)
+                        <div class="superhero is-desk">
+                          <h2>{hero.name}</h2>
+                          <img width={100} height={100} src={hero.image.url}/>
+                          <input class='button is-success' value="Add to team"/>
+                        </div>
+                      )
                     )
                   }
-                </ul>
+                  </div>
               </section>
               <footer class="modal-card-foot">
-                <button class="button is-success" onClick={() => {
-                  this.setState({find_hero: this.state.hero_name})
-                  this.findHero(this.state.find_hero)
-                  }}>Search</button>
+                <button class="button is-success" onClick={this.findHandle}>Search</button>
               </footer>
             </div>
           </div>

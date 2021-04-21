@@ -1,0 +1,29 @@
+@import "../Cummon.css";
+
+.navbar {
+    background-color: var(--details-contrast);
+}
+
+a.navbar-item:focus-within {
+    background-color: var(--details-contrast);
+}
+
+.buttons {
+    width: -webkit-fill-available;
+}
+
+.button {
+    width: -webkit-fill-available;
+}
+
+.button.is-danger {
+    background-color: #f03a5f;
+}
+
+.button.is-danger:active {
+    background-color: #5f1021;
+}
+
+.button.is-success:active {
+    background-color: #2e824a;
+}

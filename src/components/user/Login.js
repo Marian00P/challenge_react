@@ -126,7 +126,7 @@ class Login extends React.Component {
       this.handleError(EMAIL_EMPTY,"This field is required.")
     }
     else {
-      this.setState({flag: true})
+      
       console.log("Setting flag", this.state.flag)
       if (verifyEmail(email)) {
         
@@ -229,7 +229,10 @@ class Login extends React.Component {
                             <div id='allEmptyValid' class='validation' style={{margin:0,fontSize:"13px",color:"#551009"}}></div>
                           </div>
                           <div class='field'>
-                            <input class='button is-success' type='submit' value='Login' style={{marginBottom:"1rem",marginTop:".5rem"}}/> 
+                            <input class='button is-success' type='submit' onClick={() => {
+                              this.setState({flag: true})
+                              console.log("The user is logged automaticaly")
+                              }} value='Login' style={{marginBottom:"1rem",marginTop:".5rem"}}/> 
                           </div>
                       </form>
                     </div>
